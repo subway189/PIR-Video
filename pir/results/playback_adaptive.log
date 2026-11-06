@@ -1,0 +1,26 @@
+catalog '/tmp/tmpz7i_v7up/catalog': 10 videos, 300 chunks, 37.5 MiB, record size 131072 B, 1.0s per chunk
+catalog 300 records x 131072 B = 37.5 MiB; stream ~1049 kbps; video video_005
+lattice: k=16 hint 32.0 MiB setup 3.715s up 300 KiB down 512 KiB per chunk
+play baseline (non- B=1      5 Mbps rep0: startup   0.48s rebuf  0 ( 0.00s) rounds 24 wasted 0 seekmiss 0.00s
+play two-server XOR B=1      5 Mbps rep0: startup   0.99s rebuf  0 ( 0.00s) rounds 24 wasted 0 seekmiss 0.00s
+play two-server XOR B=4      5 Mbps rep0: startup   1.74s rebuf  0 ( 0.00s) rounds  6 wasted 0 seekmiss 0.00s
+play two-server XOR B=adaptive      5 Mbps rep0: startup   0.93s rebuf  0 ( 0.00s) rounds 24 wasted 0 seekmiss 0.00s
+play single-server  B=1      5 Mbps rep0: startup   3.03s rebuf 13 ( 6.33s) rounds 17 wasted 0 seekmiss 0.00s
+play single-server  B=4      5 Mbps rep0: startup   5.93s rebuf  3 ( 5.96s) rounds  5 wasted 0 seekmiss 0.00s
+play single-server  B=adaptive      5 Mbps rep0: startup   3.02s rebuf 13 ( 6.25s) rounds 17 wasted 0 seekmiss 0.00s
+play baseline (non- B=1      3 Mbps rep0: startup   0.74s rebuf  0 ( 0.00s) rounds 24 wasted 0 seekmiss 0.00s
+play two-server XOR B=1      3 Mbps rep0: startup   1.50s rebuf  0 ( 0.00s) rounds 24 wasted 0 seekmiss 0.00s
+play two-server XOR B=4      3 Mbps rep0: startup   2.85s rebuf  0 ( 0.00s) rounds  6 wasted 0 seekmiss 0.00s
+play two-server XOR B=adaptive      3 Mbps rep0: startup   1.49s rebuf  0 ( 0.00s) rounds 24 wasted 0 seekmiss 0.00s
+play single-server  B=1      3 Mbps rep0: startup   4.80s rebuf 14 (18.66s) rounds 17 wasted 0 seekmiss 0.00s
+play single-server  B=4      3 Mbps rep0: startup   9.53s rebuf  3 (16.66s) rounds  5 wasted 0 seekmiss 0.00s
+play single-server  B=adaptive      3 Mbps rep0: startup   4.85s rebuf 14 (18.59s) rounds 17 wasted 0 seekmiss 0.00s
+seek baseline (non- B=1      5 Mbps rep0: startup   0.48s rebuf  0 ( 0.00s) rounds 37 wasted 0 seekmiss 0.48s
+seek two-server XOR B=1      5 Mbps rep0: startup   0.94s rebuf  0 ( 0.00s) rounds 34 wasted 1 seekmiss 1.04s
+seek two-server XOR B=4      5 Mbps rep0: startup   1.74s rebuf  0 ( 0.00s) rounds  9 wasted 4 seekmiss 2.10s
+seek two-server XOR B=adaptive      5 Mbps rep0: startup   0.93s rebuf  0 ( 0.00s) rounds 34 wasted 1 seekmiss 1.03s
+seek single-server  B=1      5 Mbps rep0: startup   3.02s rebuf  2 ( 0.13s) rounds 18 wasted 3 seekmiss 3.77s
+seek single-server  B=4      5 Mbps rep0: startup   6.02s rebuf  0 ( 0.00s) rounds  8 wasted 12 seekmiss 8.69s
+seek single-server  B=adaptive      5 Mbps rep0: startup   3.07s rebuf  2 ( 0.12s) rounds 18 wasted 3 seekmiss 3.80s
+total 523s
+wrote results/playback_adaptive.csv

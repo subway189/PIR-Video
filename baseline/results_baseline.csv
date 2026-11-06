@@ -1,0 +1,4 @@
+condition,video,chunks_played,chunk_seconds,manifest_s,startup_latency_s,rebuffer_count,rebuffer_total_s,rebuffer_ratio,requests,total_bytes,fetch_ms_mean,fetch_ms_p50,fetch_ms_p95,fetch_ms_max,throughput_kbps,session_wall_s
+unthrottled,video_002,10,1.0,0.0007,0.002,0,0.0,0.0,10,1310720,0.37,0.29,0.49,0.83,2813260.8,10.004
+"2000 kbps, 40 ms",video_002,10,1.0,0.0411,1.1064,0,0.0,0.0,10,1310720,558.55,565.12,565.17,565.18,1877.3,11.108
+"800 kbps, 40 ms",video_002,10,1.0,0.041,2.581,6,1.7951,0.1522,10,1310720,1335.14,1351.48,1351.55,1351.64,785.4,14.394

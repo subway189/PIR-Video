@@ -1,0 +1,26 @@
+# Real-catalog runs by Kartik on his Windows machine (Git Bash), run_catalog.py, 1 video, 2 s segments
+# Catalog: 97 chunks of 367 KB each = 35 MB. Transfer time is MODELLED from bytes and the stated link speed.
+
+$ python run_catalog.py xor seg/video1        (50 Mbit/s)
+batch of  1 chunks: compute     10.3 ms | transfer (estimated)    120.3 ms | upload         0 KB | download       734 KB
+batch of  4 chunks: compute     37.1 ms | transfer (estimated)    481.1 ms | upload         0 KB | download      2936 KB
+batch of  8 chunks: compute     72.9 ms | transfer (estimated)    962.1 ms | upload         0 KB | download      5872 KB
+batch of 16 chunks: compute    122.6 ms | transfer (estimated)   1924.2 ms | upload         0 KB | download     11744 KB
+
+$ python run_catalog.py lwe seg/video1        (50 Mbit/s; setup 1.6 s)
+batch of  1 chunks: compute    158.2 ms | transfer (estimated)    486.9 ms | upload      1504 KB | download      1468 KB
+batch of  4 chunks: compute    479.6 ms | transfer (estimated)   1947.8 ms | upload      6016 KB | download      5873 KB
+batch of  8 chunks: compute   1100.3 ms | transfer (estimated)   3895.6 ms | upload     12031 KB | download     11746 KB
+batch of 16 chunks: compute   2706.9 ms | transfer (estimated)   7791.1 ms | upload     24062 KB | download     23491 KB
+
+$ BW_MBPS=10 python run_catalog.py xor seg/video1
+batch of  1 chunks: compute     10.2 ms | transfer (estimated)    601.3 ms | FAST ENOUGH to keep up with 2 s
+batch of  4 chunks: compute     39.9 ms | transfer (estimated)   2405.3 ms | FAST ENOUGH to keep up with 8 s
+batch of  8 chunks: compute     71.2 ms | transfer (estimated)   4810.5 ms | FAST ENOUGH to keep up with 16 s
+batch of 16 chunks: compute    134.3 ms | transfer (estimated)   9621.0 ms | FAST ENOUGH to keep up with 32 s
+
+$ BW_MBPS=10 python run_catalog.py lwe seg/video1   (setup 1.7 s)
+batch of  1 chunks: compute    166.0 ms | transfer (estimated)   2434.7 ms | TOO SLOW to keep up with 2 s
+batch of  4 chunks: compute    498.7 ms | transfer (estimated)   9738.9 ms | TOO SLOW to keep up with 8 s
+batch of  8 chunks: compute    820.8 ms | transfer (estimated)  19477.8 ms | TOO SLOW to keep up with 16 s
+batch of 16 chunks: compute   1841.6 ms | transfer (estimated)  38955.6 ms | TOO SLOW to keep up with 32 s

@@ -1,0 +1,13 @@
+video,chunks_played,chunk_seconds,manifest_s,startup_latency_s,rebuffer_count,rebuffer_total_s,rebuffer_ratio,requests,total_bytes,fetch_ms_mean,fetch_ms_p50,fetch_ms_p95,fetch_ms_max,throughput_kbps,session_wall_s,scheme,link,up_bytes_per_chunk,hint_mib,down_bytes_per_chunk,first_visit_startup_s,server_learns,server_ms_per_chunk
+video_002,10,1.0,0.0032,0.0072,0,0.0,0.0,10,1310720,1.31,0.94,2.07,3.03,802906.9,10.01,baseline (non-private),unthrottled,0,0,131072,0.0072,exact chunk sequence,
+video_002,10,1.0,0.0,0.0094,0,0.0,0.0,10,1310720,1.29,0.98,2.19,2.8,810559.6,10.013,two-server XOR,unthrottled,14,0.0,262144,0.01,nothing (non-collusion),0.65
+video_002,10,1.0,0.0,0.0801,0,0.0,0.0,10,1310720,42.6,36.19,54.74,55.6,24614.5,10.083,single-server lattice,unthrottled,51200,32.0,524288,0.08,nothing (LWE),14.99
+video_002,10,1.0,0.0428,0.2245,0,0.0,0.0,10,1310720,93.71,93.31,93.51,114.23,11189.9,10.228,baseline (non-private),"20 Mbps, 40 ms",0,0,131072,0.2245,exact chunk sequence,
+video_002,10,1.0,0.0,0.2945,0,0.0,0.0,10,1310720,146.75,146.68,147.15,147.18,7145.4,10.297,two-server XOR,"20 Mbps, 40 ms",14,0.0,262144,0.33,nothing (non-collusion),0.64
+video_002,10,1.0,0.0,0.6281,0,0.0,0.0,10,1310720,309.31,310.62,313.98,314.72,3390.1,10.632,single-server lattice,"20 Mbps, 40 ms",51200,32.0,524288,14.09,nothing (LWE),14.16
+video_002,10,1.0,0.0427,0.5197,0,0.0,0.0,10,1310720,248.25,250.63,250.94,251.36,4223.8,10.522,baseline (non-private),"5 Mbps, 40 ms",0,0,131072,0.5197,exact chunk sequence,
+video_002,10,1.0,0.0,0.9229,0,0.0,0.0,10,1310720,461.47,461.04,462.67,463.81,2272.3,10.926,two-server XOR,"5 Mbps, 40 ms",14,0.0,262144,0.96,nothing (non-collusion),0.66
+video_002,10,1.0,0.0,2.0083,0,0.0,0.0,10,1310720,996.98,995.97,1002.22,1004.63,1051.7,12.011,single-server lattice,"5 Mbps, 40 ms",51200,32.0,524288,55.74,nothing (LWE),12.7
+video_002,10,1.0,0.0472,0.7866,0,0.0,0.0,10,1310720,386.33,390.53,390.77,391.3,2714.2,10.789,baseline (non-private),"3 Mbps, 40 ms",0,0,131072,0.7866,exact chunk sequence,
+video_002,10,1.0,0.0,1.4821,0,0.0,0.0,10,1310720,740.69,740.55,741.02,741.19,1415.7,11.485,two-server XOR,"3 Mbps, 40 ms",14,0.0,262144,1.52,nothing (non-collusion),0.59
+video_002,10,1.0,0.0,3.2227,7,3.9225,0.2817,10,1310720,1614.47,1613.68,1620.24,1622.48,649.5,17.148,single-server lattice,"3 Mbps, 40 ms",51200,32.0,524288,92.74,nothing (LWE),14.88

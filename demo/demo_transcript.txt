@@ -1,0 +1,57 @@
+Private video streaming with PIR — live demo   (real TLS servers on localhost, real player)
+catalog '/tmp/tmpzmj29ln1/catalog': 3 videos, 60 chunks, 1.9 MiB, record size 32768 B, 0.4s per chunk
+catalog: 3 videos × 20 chunks = 60 records of 32 KiB · viewer watches 'video_001' and seeks 4→14, then back to 2
+
+━━ ACT 1 · Without PIR the server sees everything ━━━━━━━━━━━━━━━━━━━━━━
+   baseline (plain HTTP chunk fetch)  played 17 chunks (seeks incl.) | startup 0.00s | rebuffers 0 | rounds 34 | batches [1, 1, 1, 1, 1, 1, 1, 1, 1]
+   every chunk SHA-256-verified against the signed manifest · play order correct: True
+   SERVER LOG → video_001: chunk requests in order [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 2, 3, 4, 5, 6, 7] …
+   (you can see the jump when the viewer seeked, plus the player's read-ahead)
+   The operator knows which video, when you seeked, and where you stopped.
+
+━━ ACT 2 · Two-server XOR PIR: same session, nothing to log ━━━━━━━━━━━━
+   XOR PIR over TLS 1.3 + mutual auth played 17 chunks (seeks incl.) | startup 0.01s | rebuffers 0 | rounds 10 | batches [1, 2, 4, 1, 2, 3, 1, 2, 4]
+   every chunk SHA-256-verified against the signed manifest · play order correct: True
+   SERVER A's view: 10 requests, each just 8 random-looking bytes, e.g.
+        06 49 ad d4 94 5f 08 50   (≈41% of bits set)
+        13 46 75 5e d0 32 73 60   (≈45% of bits set)
+        3c d9 6d 90 7d 93 db 60   (≈53% of bits set)
+   No video id, no chunk number. Alone, each share is uniformly random.
+   share to A: 93 7b 5d 8d 7e fe 38 90   share to B: 93 7b 5d cd 7e fe 38 90   A⊕B = 00 00 00 40 00 00 00 00  ← the 1-hot vector, visible only if A and B collude
+
+━━ ACT 3 · Single-server lattice PIR (LWE): one honest-but-curious server ━━━
+   one-time hint download: 5.3 MiB (then every query is fresh)
+   lattice PIR over TLS               played 17 chunks (seeks incl.) | startup 0.04s | rebuffers 0 | rounds 10 | batches [1, 2, 4, 1, 2, 3, 1, 2, 4]
+   every chunk SHA-256-verified against the signed manifest · play order correct: True
+   SERVER's view: 10 query matrices of 32-bit numbers, e.g. [2056917279, 617319893, 1370223684, 4032301376] …
+   ≈50% above 2³¹ — indistinguishable from random under the LWE assumption (no 2nd server needed).
+
+━━ ACT 4 · The curious operator tries to guess your chunk ━━━━━━━━━━━━━━
+   baseline server reading its log : 400/400 = 100%
+   ONE XOR server (its share only) : 5/400 = 1.2%   (chance = 1.7%)
+   BOTH XOR servers collude        : 400/400 = 100%   ← the assumption: run them under different operators
+   And traffic analysis (batch sizes/timing) still leaks — see security_eval/ for the attack and the padding defence.
+
+━━ ACT 5 · Cheating, refusing and dead servers ━━━━━━━━━━━━━━━━━━━━━━━━━
+   one XOR server is now corrupting every answer; one more is unreachable (crashed port)
+   robust XOR (F=1 per side)          played 17 chunks (seeks incl.) | startup 0.12s | rebuffers 0 | rounds 10 | batches [1, 2, 4, 1, 2, 3, 1, 2, 4]
+   every chunk SHA-256-verified against the signed manifest · play order correct: True
+      event: unavailable xor0.1@127.0.0.1:53585
+      event: cheater     xor1.0@127.0.0.1:44015
+   Playback is still bit-exact: the cheater is outvoted by the signed hashes, caught and quarantined.
+
+   now an entire operator disappears (side 2 of the XOR deployment is down)
+   XOR → fails over to lattice PIR    played 17 chunks (seeks incl.) | startup 0.17s | rebuffers 0 | rounds 10 | batches [1, 2, 4, 1, 2, 3, 1, 2, 4]
+   every chunk SHA-256-verified against the signed manifest · play order correct: True
+      events: XOR deployment failed → robust single-server lattice (TCP, failover) took over
+   Never wrong data. If nothing honest is reachable the client stops with an error instead of lying.
+
+━━ ACT 6 · The numbers (measured, from the project's result files) ━━━━━
+   Per-chunk cost (64 KiB-class chunks)   baseline 1×  |  XOR ≈2× down  |  lattice ≈4× down + upload, one-time hint
+   XOR   1024 MiB catalog: server time 391 ms → 52 ms with 8 shards (slowest-shard projection)
+   LWE    256 MiB catalog: server time 720 ms → 126 ms with 8 shards (slowest-shard projection)
+   playback @5 Mbit/s (~1 Mbit/s video), two-server XOR        : startup 0.93s, rebuffers 0
+   playback @5 Mbit/s (~1 Mbit/s video), single-server lattice : startup 3.02s, rebuffers 13
+   Takeaway: XOR PIR is real-time on ordinary links; single-server lattice PIR works but needs ~13 Mbit/s at 2 s/367 KB chunks.
+
+Done.

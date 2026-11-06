@@ -1,0 +1,33 @@
+catalog '/tmp/tmpgn9whief/catalog': 10 videos, 300 chunks, 37.5 MiB, record size 131072 B, 1.0s per chunk
+catalog 300 records x 131072 B = 37.5 MiB; stream ~1049 kbps; video video_005
+lattice: k=16 hint 32.0 MiB setup 1.96s up 300 KiB down 512 KiB per chunk
+seek baseline (non- B=1     10 Mbps rep0: startup   0.28s rebuf  0 ( 0.00s) rounds 37 wasted 0 seekmiss 0.28s
+seek two-server XOR B=1     10 Mbps rep0: startup   0.51s rebuf  0 ( 0.00s) rounds 37 wasted 0 seekmiss 0.51s
+seek two-server XOR B=2     10 Mbps rep0: startup   0.47s rebuf  0 ( 0.00s) rounds 18 wasted 0 seekmiss 0.47s
+seek two-server XOR B=4     10 Mbps rep0: startup   0.90s rebuf  0 ( 0.00s) rounds  9 wasted 0 seekmiss 0.89s
+seek single-server  B=1     10 Mbps rep0: startup   1.65s rebuf  0 ( 0.00s) rounds 25 wasted 3 seekmiss 1.77s
+seek single-server  B=2     10 Mbps rep0: startup   1.54s rebuf  0 ( 0.00s) rounds 14 wasted 6 seekmiss 2.37s
+seek single-server  B=4     10 Mbps rep0: startup   3.16s rebuf  0 ( 0.00s) rounds  8 wasted 8 seekmiss 4.23s
+seek baseline (non- B=1      5 Mbps rep0: startup   0.48s rebuf  0 ( 0.00s) rounds 37 wasted 0 seekmiss 0.48s
+seek two-server XOR B=1      5 Mbps rep0: startup   0.93s rebuf  0 ( 0.00s) rounds 34 wasted 1 seekmiss 1.03s
+seek two-server XOR B=2      5 Mbps rep0: startup   0.89s rebuf  0 ( 0.00s) rounds 18 wasted 2 seekmiss 1.11s
+seek two-server XOR B=4      5 Mbps rep0: startup   1.73s rebuf  0 ( 0.00s) rounds  9 wasted 4 seekmiss 2.10s
+seek single-server  B=1      5 Mbps rep0: startup   2.93s rebuf  0 ( 0.00s) rounds 19 wasted 3 seekmiss 3.54s
+seek single-server  B=2      5 Mbps rep0: startup   2.89s rebuf  3 ( 2.60s) rounds 11 wasted 6 seekmiss 3.76s
+seek single-server  B=4      5 Mbps rep0: startup   5.73s rebuf  0 ( 0.00s) rounds  8 wasted 12 seekmiss 8.13s
+seek baseline (non- B=1     10 Mbps rep1: startup   0.28s rebuf  0 ( 0.00s) rounds 37 wasted 0 seekmiss 0.28s
+seek two-server XOR B=1     10 Mbps rep1: startup   0.51s rebuf  0 ( 0.00s) rounds 37 wasted 0 seekmiss 0.51s
+seek two-server XOR B=2     10 Mbps rep1: startup   0.47s rebuf  0 ( 0.00s) rounds 18 wasted 0 seekmiss 0.47s
+seek two-server XOR B=4     10 Mbps rep1: startup   0.89s rebuf  0 ( 0.00s) rounds  9 wasted 0 seekmiss 0.89s
+seek single-server  B=1     10 Mbps rep1: startup   1.63s rebuf  0 ( 0.00s) rounds 25 wasted 3 seekmiss 1.75s
+seek single-server  B=2     10 Mbps rep1: startup   1.54s rebuf  0 ( 0.00s) rounds 14 wasted 6 seekmiss 2.38s
+seek single-server  B=4     10 Mbps rep1: startup   3.19s rebuf  0 ( 0.00s) rounds  8 wasted 8 seekmiss 4.26s
+seek baseline (non- B=1      5 Mbps rep1: startup   0.48s rebuf  0 ( 0.00s) rounds 37 wasted 0 seekmiss 0.48s
+seek two-server XOR B=1      5 Mbps rep1: startup   0.93s rebuf  0 ( 0.00s) rounds 34 wasted 1 seekmiss 1.02s
+seek two-server XOR B=2      5 Mbps rep1: startup   0.89s rebuf  0 ( 0.00s) rounds 18 wasted 2 seekmiss 1.11s
+seek two-server XOR B=4      5 Mbps rep1: startup   1.73s rebuf  0 ( 0.00s) rounds  9 wasted 4 seekmiss 2.10s
+seek single-server  B=1      5 Mbps rep1: startup   2.93s rebuf  0 ( 0.00s) rounds 19 wasted 3 seekmiss 3.53s
+seek single-server  B=2      5 Mbps rep1: startup   2.87s rebuf  3 ( 2.66s) rounds 11 wasted 6 seekmiss 3.76s
+seek single-server  B=4      5 Mbps rep1: startup   5.73s rebuf  0 ( 0.00s) rounds  8 wasted 12 seekmiss 8.06s
+total 594s
+wrote results/seek.csv

@@ -1,0 +1,20 @@
+kernels: C kernels (gcc); R=65536 B; N in [16, 32, 64, 128, 256, 512, 1024, 2048, 4096]; hint cap 64 MiB
+N=    16 (    1.0 MiB) k=  4 hint   64.0 MiB setup    3.9s | B= 1 server      0.9 ms (    0.9/rec) client     12.7 ms up   0.00 MiB down  0.25 MiB
+N=    16 (    1.0 MiB) k=  4 hint   64.0 MiB setup    3.9s | B= 4 server      2.5 ms (    0.6/rec) client     38.1 ms up   0.00 MiB down  0.25 MiB
+N=    32 (    2.0 MiB) k=  4 hint   64.0 MiB setup    0.8s | B= 1 server      1.1 ms (    1.1/rec) client     13.2 ms up   0.00 MiB down  0.25 MiB
+N=    32 (    2.0 MiB) k=  4 hint   64.0 MiB setup    0.8s | B= 4 server      4.1 ms (    1.0/rec) client     38.0 ms up   0.00 MiB down  0.25 MiB
+N=    64 (    4.0 MiB) k=  4 hint   64.0 MiB setup    0.6s | B= 1 server      1.9 ms (    1.9/rec) client     13.8 ms up   0.00 MiB down  0.25 MiB
+N=    64 (    4.0 MiB) k=  4 hint   64.0 MiB setup    0.6s | B= 4 server      8.1 ms (    2.0/rec) client     39.5 ms up   0.00 MiB down  0.25 MiB
+N=   128 (    8.0 MiB) k=  4 hint   64.0 MiB setup    2.0s | B= 1 server      3.9 ms (    3.9/rec) client     14.8 ms up   0.01 MiB down  0.25 MiB
+N=   128 (    8.0 MiB) k=  4 hint   64.0 MiB setup    2.0s | B= 4 server     13.7 ms (    3.4/rec) client     38.7 ms up   0.01 MiB down  0.25 MiB
+N=   256 (   16.0 MiB) k=  4 hint   64.0 MiB setup    1.2s | B= 1 server      7.7 ms (    7.7/rec) client     14.5 ms up   0.02 MiB down  0.25 MiB
+N=   256 (   16.0 MiB) k=  4 hint   64.0 MiB setup    1.2s | B= 4 server     27.7 ms (    6.9/rec) client     43.5 ms up   0.02 MiB down  0.25 MiB
+N=   512 (   32.0 MiB) k=  4 hint   64.0 MiB setup    3.9s | B= 1 server     16.2 ms (   16.2/rec) client     15.5 ms up   0.03 MiB down  0.25 MiB
+N=   512 (   32.0 MiB) k=  4 hint   64.0 MiB setup    3.9s | B= 4 server     55.4 ms (   13.8/rec) client     41.2 ms up   0.03 MiB down  0.25 MiB
+N=  1024 (   64.0 MiB) k=  4 hint   64.0 MiB setup    5.7s | B= 1 server     29.1 ms (   29.1/rec) client     16.8 ms up   0.06 MiB down  0.25 MiB
+N=  1024 (   64.0 MiB) k=  4 hint   64.0 MiB setup    5.7s | B= 4 server    105.4 ms (   26.3/rec) client     48.3 ms up   0.06 MiB down  0.25 MiB
+N=  2048 (  128.0 MiB) k=  4 hint   64.0 MiB setup    9.4s | B= 1 server     63.4 ms (   63.4/rec) client     21.8 ms up   0.12 MiB down  0.25 MiB
+N=  2048 (  128.0 MiB) k=  4 hint   64.0 MiB setup    9.4s | B= 4 server    229.6 ms (   57.4/rec) client     62.9 ms up   0.12 MiB down  0.25 MiB
+N=  4096 (  256.0 MiB) k=  4 hint   64.0 MiB setup   17.7s | B= 1 server    147.5 ms (  147.5/rec) client     28.2 ms up   0.25 MiB down  0.25 MiB
+N=  4096 (  256.0 MiB) k=  4 hint   64.0 MiB setup   17.7s | B= 4 server    520.5 ms (  130.1/rec) client     77.9 ms up   0.25 MiB down  0.25 MiB
+wrote results/lattice_R64KiB.csv

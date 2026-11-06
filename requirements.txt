@@ -1,0 +1,4 @@
+cryptography>=41
+numpy
+pandas
+matplotlib

@@ -1,0 +1,34 @@
+{
+  "xor_single": {
+    "N": 97,
+    "trials": 20000,
+    "chance": 0.010309278350515464,
+    "acc_pick_set_bit": 0.0106,
+    "acc_pick_unset_bit": 0.0101,
+    "ci95": 0.001399925601169072,
+    "max_bit_bias": 0.00714999999999999
+  },
+  "xor_single_N1000": {
+    "N": 1000,
+    "trials": 20000,
+    "chance": 0.001,
+    "acc_pick_set_bit": 0.0013,
+    "acc_pick_unset_bit": 0.00125,
+    "ci95": 0.0004380501341170894,
+    "max_bit_bias": 0.01319999999999999
+  },
+  "xor_colluding": {
+    "N": 97,
+    "trials": 2000,
+    "acc": 1.0
+  },
+  "lwe": {
+    "m": 60,
+    "trials": 3000,
+    "chi2_target": 287.3813333333333,
+    "chi2_other": 262.46400000000006,
+    "chi2_expected": 255.0,
+    "guess_acc": 0.014333333333333333,
+    "chance": 0.016666666666666666
+  }
+}
