@@ -49,38 +49,46 @@ def build_synthetic(catalog_dir, n_videos, chunks_per_video, chunk_size, seed="p
     return videos
 
 
-def build_from_videos(catalog_dir, paths, chunk_size, chunk_seconds, bitrate_kbps):
+def build_from_videos(catalog_dir, paths, chunk_size, chunk_seconds, bitrate_kbps, auto_lower=True):
+    """Encode each video into MPEG-TS segments that fit one record. If a segment is too big (busy scenes overshoot
+    the rate target) and auto_lower is set, the bitrate is lowered automatically and the video re-encoded."""
     if shutil.which("ffmpeg") is None:
         sys.exit("ffmpeg not found on PATH (needed for --from-video)")
     videos = {}
     for path in paths:
         vid = "".join(c if c.isalnum() or c in "_-" else "_" for c in os.path.splitext(os.path.basename(path))[0])
-        with tempfile.TemporaryDirectory() as tmp:
-            cmd = [
-                "ffmpeg", "-y", "-loglevel", "error", "-i", path,
-                "-c:v", "libx264", "-preset", "veryfast",
-                "-b:v", f"{bitrate_kbps}k", "-maxrate", f"{bitrate_kbps}k",
-                "-bufsize", f"{bitrate_kbps}k",
-                "-force_key_frames", f"expr:gte(t,n_forced*{chunk_seconds})",
-                "-c:a", "aac", "-b:a", "64k",
-                "-f", "segment", "-segment_time", str(chunk_seconds),
-                "-segment_format", "mpegts",
-                os.path.join(tmp, "seg_%06d.ts"),
-            ]
-            subprocess.run(cmd, check=True)
-            segs = sorted(glob.glob(os.path.join(tmp, "seg_*.ts")))
-            sizes = [os.path.getsize(s) for s in segs]
-            if max(sizes) > chunk_size:
-                sys.exit(
-                    f"{vid}: largest segment is {max(sizes)} bytes but --chunk-size is {chunk_size}. "
-                    f"Raise --chunk-size (e.g. {((max(sizes) // 1024) + 1) * 1024}) or lower --bitrate-kbps."
-                )
-            chunks = []
-            for i, seg in enumerate(segs):
-                with open(seg, "rb") as f:
-                    chunks.append(_write_record(catalog_dir, vid, i, f.read(), chunk_size))
+        br = bitrate_kbps
+        for attempt in range(6):
+            with tempfile.TemporaryDirectory() as tmp:
+                cmd = [
+                    "ffmpeg", "-y", "-loglevel", "error", "-i", path,
+                    "-c:v", "libx264", "-preset", "veryfast",
+                    "-b:v", f"{br}k", "-maxrate", f"{br}k",
+                    "-bufsize", f"{br}k",
+                    "-force_key_frames", f"expr:gte(t,n_forced*{chunk_seconds})",
+                    "-c:a", "aac", "-b:a", "64k",
+                    "-f", "segment", "-segment_time", str(chunk_seconds),
+                    "-segment_format", "mpegts",
+                    os.path.join(tmp, "seg_%06d.ts"),
+                ]
+                subprocess.run(cmd, check=True)
+                segs = sorted(glob.glob(os.path.join(tmp, "seg_*.ts")))
+                sizes = [os.path.getsize(s) for s in segs]
+                if max(sizes) <= chunk_size:
+                    chunks = []
+                    for i, seg in enumerate(segs):
+                        with open(seg, "rb") as f:
+                            chunks.append(_write_record(catalog_dir, vid, i, f.read(), chunk_size))
+                    break
+                if not auto_lower or attempt == 5 or br <= 100:
+                    sys.exit(
+                        f"{vid}: largest segment is {max(sizes)} bytes but --chunk-size is {chunk_size}. "
+                        f"Raise --chunk-size (e.g. {((max(sizes) // 1024) + 1) * 1024}) or lower --bitrate-kbps."
+                    )
+                br = max(100, int(br * chunk_size / max(sizes) * 0.85))
+                print(f"  {vid}: a segment was {max(sizes)} B > record {chunk_size} B -> re-encoding at {br} kbps", flush=True)
         videos[vid] = {"title": os.path.basename(path), "num_chunks": len(chunks), "chunks": chunks}
-        print(f"  {vid}: {len(chunks)} chunks, max segment {max(sizes)} B (record size {chunk_size} B)")
+        print(f"  {vid}: {len(chunks)} chunks, max segment {max(sizes)} B (record size {chunk_size} B, video {br} kbps)")
     return videos
 
 
@@ -93,12 +101,14 @@ def build_catalog(catalog_dir, chunk_size, chunk_seconds, synthetic_videos=0,
     videos = {}
     if synthetic_videos:
         videos.update(build_synthetic(catalog_dir, synthetic_videos, chunks_per_video, chunk_size, seed))
+    explicit_bitrate = bitrate_kbps
     if from_videos:
         if bitrate_kbps is None:
             # Budget = record size per chunk. Keep 25% headroom for MPEG-TS overhead and
             # rate-control overshoot, and subtract the 64 kbps audio track from video.
             bitrate_kbps = max(100, int(chunk_size * 8 / 1000 / chunk_seconds * 0.75) - 64)
-        videos.update(build_from_videos(catalog_dir, from_videos, chunk_size, chunk_seconds, bitrate_kbps))
+        videos.update(build_from_videos(catalog_dir, from_videos, chunk_size, chunk_seconds, bitrate_kbps,
+                                        auto_lower=explicit_bitrate is None))
     if not videos:
         sys.exit("nothing to build: pass --synthetic-videos N and/or --from-video FILE...")
     manifest = {"version": 1, "chunk_size": chunk_size, "chunk_seconds": chunk_seconds, "videos": videos}

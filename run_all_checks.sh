@@ -21,4 +21,10 @@ echo "== [C/D] fault tolerance: cheating / refusing / hanging / crashed servers 
 python3 -W ignore network/test_robust.py 2>&1 | grep -E "^(Ran|OK|FAIL)"
 echo "== [demo] live demo runs end to end (auto mode)"
 python3 -W ignore demo/live_demo.py --auto --pause 0 > /tmp/_demo_out.txt 2>&1 && grep -c "play order correct: True" /tmp/_demo_out.txt && grep -q "Done." /tmp/_demo_out.txt
+if command -v ffmpeg >/dev/null; then
+  echo "== [video] run_video.py on a generated test video (XOR, then robust)"
+  _V=$(mktemp -d); ffmpeg -loglevel error -y -f lavfi -i testsrc2=size=320x180:rate=25 -f lavfi -i sine=frequency=440 -t 14 -c:v libx264 -c:a aac -pix_fmt yuv420p "$_V/t.mp4"
+  python3 -W ignore run_video.py "$_V/t.mp4" --catalog-dir "$_V/cat" --out-dir "$_V/out" | grep -c "identical to the server's copy: True"
+  python3 -W ignore run_video.py --catalog-dir "$_V/cat" --mode robust --inject-cheater --out-dir "$_V/out" | grep -c "identical to the server's copy: True"
+else echo "== [video] skipped (ffmpeg not installed)"; fi
 echo "ALL CHECKS PASSED"

@@ -12,6 +12,23 @@ needs python3 + `pip install -r requirements.txt`; gcc optional — C kernels fa
 | D (eval/security) | Threat model, metrics/simulator, attackers, countermeasures, final report section | `security_eval/` | `threat_model.md`, `Final_Report_Evaluation_and_Security.md`, `results/` |
 | — | Literature survey report, slides 18–22 + script, 4-member plan | `docs/` | |
 
+## Run the system on your own video
+```
+python run_video.py my_movie.mp4                       # 2-server XOR PIR, TLS 1.3, signed manifest (default)
+python run_video.py a.mp4 b.mp4 --watch b              # several videos in the catalog, stream "b" privately
+python run_video.py --videos-dir D:\\videos --mode robust [--inject-cheater]   # fault tolerant; optionally with a lying server
+python run_video.py clip.mp4 --mode lwe                # single-server lattice PIR
+python run_video.py --catalog-dir video_catalog        # reuse the catalog built earlier (skips re-encoding)
+```
+It needs **ffmpeg** on PATH (Windows: `winget install Gyan.FFmpeg`, then open a new terminal). The script encodes and chunks
+each video into fixed-size records (if a segment is too big for the record it lowers the bitrate automatically), signs the
+manifest, starts TLS PIR servers, streams the video privately with seeks, then retrieves the whole video through PIR and
+writes `output/<name>_pir.ts` (byte-identical to the servers' copy; open with VLC or `ffplay`).
+Options: `--chunk-size 524288` for better picture quality (bigger records = more PIR cost), `--chunk-seconds`, `--play-chunks N`
+(`0` = play it all in real time), `--no-seek`, `--no-download`. Cost grows with catalog size: XOR handles hundreds of MiB easily;
+lattice PIR pays a hint download and setup that grow with the catalog (about 12 MiB for 35 chunks of 256 KiB).
+To run the servers as separate processes/machines instead, see `network/README_NETWORK.md` (`pir_network_server.py --catalog video_catalog`).
+
 ## Presentation demo
 `PYTHONPATH=. python3 demo/live_demo.py` — 6 acts, ~5 min (baseline leak → XOR PIR → lattice PIR → curious-operator test → cheating/dead servers → numbers). Presenter notes and fallback transcript: `demo/DEMO_GUIDE.md`, `demo/demo_transcript.txt`.
 
